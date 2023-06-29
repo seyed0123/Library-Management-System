@@ -1,55 +1,103 @@
-# Library Management System
+## *In the name of GOD*
+## *third assignment report*
 
-## Introduction
-In this assignment, you will create an object-oriented Java program that can manage a library. The program should allow users to search for books, borrow and return books, and manage the library inventory. The program should be designed using object-oriented programming principles.
 
-## Objectives
-- Review the concepts of object-oriented programming (OOP) and utilize them correctly
-- Familiarize yourself with the concept of Encapsulation
-- Learn the difference between Static and Instance variables
-- Use Git for version control and collaborate on a codebase
-- Write a report on the assignment
+# Intrduction
 
-## Tasks
-1. Fork this repository and clone the fork to your local machine. Ensure to create a new Git branch before starting your work
-2. Complete the following classes by adding the required parameters and implementing the predefined functions: `Book`, `Librarian`, `User`, `Library`
-3. In the `runMenu()` function of the Main class, Implement an interactive menu in the command line that allows:
-    - Users to login, logout, borrow and return books
-    - Librarians to login, logout, add or delete books
-4. Your menu should allow new Users to create an account by providing a username and a password. Prevent new users choosing a previously taken username. Authenticate each user before logging in
-5. Your program should keep a list of all users (and the books they've borrowed), all librarians, and all books
-6. Commit your changes and merge your branch into `main`. Push your commits to your own fork on Github
+this is a program to manage a simple library where a user can sign up, rent books... and librarians Supervise the actions taken in the library.
+this program does the user's and librarian's requests and saves book information in itself.
+it was done through objects and their methods.
+but don't have a database or work via files.
 
-## Notes
-- The code provided in this repository gives you a template to work with and build your project. You are allowed to:
-    - Add new functions and classes to your code wherever you see fit.
-    - Change and swap the predefined functions as you wish, as long as the program satisfies all the requirements.
-    
-- Your report should focus on the structure you chose for each different class, as well the OOP principles you followed while designing your project. Describe the design of your program, including the classes, objects, methods, and attributes.
+# Design and Implementation
 
-- If you implement any bonus features, be sure to include additional details about them in your report. 
+### Design four principal objects 
+- User
+- Library
+- Book
+- librarian
 
-## Evaluation
-- Your code should compile and run without any errors
-- Your code should be well-organized, readable, properly commented and follows clean code principles
-- Your code should follow OOP principles and correctly use Java access modifiers
-- You should use Git for version control and include meaningful commit messages (The `main` branch will be used for evaluation)
+### Now see the object information
+1. ### User :
+   | attributes | methods | method explanation |
+   | ---------- | ------- | ---------- |
+   | username   | | |
+   | password   |Hash password | hashes a string |
+   | | Check password | Checks the correctness of the given password|
+   | | set password | sets a new password (required old password) |
+   |books list | get books | prints the list of books that were rented by the user  | 
+   | | Return book | puts the book from the book list in the  library shelf |
+   | | Rent book | Puts the book from the library shelf in the person's book list |
+2. ### Book :
+   | attributes | methods | method job |
+   | ---------- | ------- | ---------- |
+   |name |print status | prints all attributes of the book|
+   |author | |
+   |ISBN|||
+   |year of publishing | |
+   |number |decreaseBook| decreases the number of the book on the library shelf|
+   ||increaseBook| increases number of the book on the library shelf|
+   ||getNum| returns the number of books on the library shelf|
+3. ### Librarians 
+   > extended from user
 
-**Attention: Using ChatGPT or any other AI generative model for any section of the assignment will result in a score of 0 without any warnings.**
+   | attributes | methods | method job |
+   | ---------- | ------- | ---------- |
+   |isActive| checkActivity| returns activity status|
+   ||changeActivity|chenges activity status
+   ||<mark>over riding</mark> checkPassword| it is also considered activity status|
+4. ### library
+   | attributes | methods | method job |
+   | ---------- | ------- | ---------- |
+   |list of books| add book | adds a book that isn't in the library with a specified amount on the library shelf|
+   ||removeBook| deletes a book from the library|
+   ||searchBook| calls the `printStatus()` method from the book obj | 
+   ||updateBook| updates year of publication of a book|
+   ||doesBookExist| checks if the book is in the library or not | 
+   ||decreaseBook | decreases the number of books in the library self|
+   ||increaseBook| increases the number of books in the library self|
+   ||rentBook|checks the adequate conditions and uses the `rentBook()` method of user obj|
+   ||returnBook|checks the adequate conditions and uses the ` returnBook()` method of user obj| 
+   |list of Users|addUser| adds a User that isn't in the library's notebook |
+   ||removeUser| deletes a user from the library's notebook |
+   ||searchUser| calls the `getBook()` method from the user obj |
+   ||updateUser| updated the password by knowing the old password |
+   ||doesUserExist| checks if the user is in the library's notebook or not |
+   |list of Librarians|addLibrarian| adds a Librarian that isn't in the library's notebook |
+   ||removeLibrarian| deletes a Librarian from the library's notebook |
+   ||searchLibrarian| checks the activation of the librarian |
+   ||updateLibrarian| change the activation of the librarian |
+   ||doesLibrarianExist| checks if the Librarian is in the library's notebook or not |
+   ||login|checks username and password and return the Specified value for each section| 
+### Functions that need an explanation
+- **User.hashPassword** :
+    uses the **MD5** algorithm to hash passwords that are  a secure way to save passwords in the database
+    when the program wants to check the password, hashes an input password and then compares it with the hash string that was stored before.
+- **library.login**: Checks the existence of the user and the validity of the password.
+  ### return Tabel :
+  | condition |return number|
+  |------|------|
+  |user with correct password|2|
+  |user with the wrong password|1|
+  |librarian with the wrong password|-1|
+  |librarian with correct password|-2|
+  |else|0|
+and handles the value of this return in the main class and then logs in to the user or librarian page
 
-## Bonus Objectives
-1. Perform Input Validation: Ensure the data or information entered by a user or system is correct, complete, and appropriate for the intended use. For instance, a user shouldn't be able to borrow the same book twice, or return a book they haven't borrowed yet.
+---
+- Books are stored in the library in a hash map because each one has a specific **ISBN** code. Search, update, add... books work based on this property of books. This is the case for users and librarians according to their **usernames**.
+- This program uses swing GUI to get input and show outputs. this function `JOptionpane()` creates a new window and does some stuff.
+- Implements encapsulation to protect data. so initials almost every variable to private mode so can access them only with that class method. but if initials a variable public it can be changed anywhere and can't check the validity of the data or can be dangerous for important data.
+- In each function, for each action, the necessary logical conditions for the inputs are checked first, and then the given command is performed
+# Testing and Evaluation:
+- For testing, this program we set a default librarian and sign in and test all of the functions.
+- The result is the program does well for each case but have a little bug so was fixed with no difficulty.
+- **special case**: when a user inputs a non-numeric string when the program wants a numeric string it crashed because of the `Integer.parseInt()` function so it needed to use this way 
+    > ``` try{} catch{} ```
+   
+to detect crashes and handle them.
+to solve this problem uses this function `getNumberString()`, This function ensures that the inputs consist of only numbers
+# Conclusion:
 
-2. Implement Encapsulation in your code to protect the data and ensure that it can only be accessed through the defined setter/getter functions. Describe the difference between the distinct Java access modifiers in your report.
-
-3. Extend the User and Librarian classes to create a more secure login system. Use a hashing algorithm to hash the user's password. Give a brief explanation about the hashing process in your report.
-
-4. Add a simple GUI (Graphical User Interface) to your project using either Swing or JavaFX. This GUI should include all of the options offered by the command line menu you implemented earlier. Displaying pictures or icons is optional.
-
-## Submission
-- Push your code to your fork on Github
-- Upload your report to your fork on GitHub
-
-The deadline for submitting your code is Wednesday, March 8 (17th of Esfand). Any commit made after this date will not affect your score.
-
-Good luck and happy coding!
+with the help of this program, we can meet the needs of a library to manage.
+but this program needs a more beautiful user interface and a strong database or an appropriate server to have a connection between libraries to can be used in practical conditions.
